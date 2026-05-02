@@ -1,0 +1,13 @@
+{
+  "name": "openclaw-alp-river-plugin",
+  "version": "0.1.0",
+  "description": "OpenClaw plugin for Alp River-style S/M/L/XL workflow guidance.",
+  "type": "module",
+  "main": "index.js",
+  "openclaw": {
+    "extensions": ["./index.js"],
+    "compat": { "pluginApi": ">=2026.4.15" },
+    "release": { "publishToClawHub": true }
+  },
+  "license": "MIT"
+}
