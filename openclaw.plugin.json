@@ -1,0 +1,23 @@
+{
+  "id": "alp-river",
+  "name": "Alp River Workflow",
+  "description": "OpenClaw adapter for Alp River staged workflow classification, prompt guidance, and specialist-role recommendations.",
+  "configSchema": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "enabled": { "type": "boolean", "default": true },
+      "minimumRiverTier": { "type": "string", "enum": ["S", "M", "L", "XL"], "default": "M" },
+      "injectPromptContext": { "type": "boolean", "default": true },
+      "registerTool": { "type": "boolean", "default": true },
+      "debug": { "type": "boolean", "default": false }
+    }
+  },
+  "uiHints": {
+    "enabled": { "label": "Enable Alp River workflow guidance" },
+    "minimumRiverTier": { "label": "Minimum River Tier", "help": "Tasks at this tier or higher receive river workflow guidance." },
+    "injectPromptContext": { "label": "Inject Prompt Context", "help": "Adds a compact workflow advisory block during prompt build." },
+    "registerTool": { "label": "Register Classifier Tool", "help": "Expose alp_river_classify_task to agents." },
+    "debug": { "label": "Debug Logging", "advanced": true }
+  }
+}
