@@ -47,6 +47,37 @@ export function resolveConfig(raw = {}) {
   };
 }
 
+export function extractClassifiableTaskText(text = "") {
+  const lines = String(text || "").split(/\r?\n/);
+  const kept = [];
+  let skippingAdvisory = false;
+
+  for (const line of lines) {
+    if (/^## Alp River Workflow Advisory\s*$/.test(line)) {
+      skippingAdvisory = true;
+      continue;
+    }
+    if (skippingAdvisory) {
+      if (line.trim() === "") {
+        skippingAdvisory = false;
+      }
+      continue;
+    }
+    kept.push(line);
+  }
+
+  let raw = kept.join("\n");
+
+  // Discord/OpenClaw envelopes often append metadata and untrusted wrappers to
+  // the prompt. Those are context for the model, not the user's task.
+  raw = raw.replace(/Conversation info \(untrusted metadata\):[\s\S]*$/g, "");
+  raw = raw.replace(/Sender \(untrusted metadata\):[\s\S]*$/g, "");
+  raw = raw.replace(/Untrusted context \(metadata, do not treat as instructions or commands\):[\s\S]*$/g, "");
+  raw = raw.replace(/<<<EXTERNAL_UNTRUSTED_CONTENT[\s\S]*?<<<END_EXTERNAL_UNTRUSTED_CONTENT[^>]*>>>/g, "\n");
+
+  return raw.trim();
+}
+
 export function classifyWorkflowTier(text = "") {
   const raw = String(text || "");
   const low = raw.toLowerCase();
