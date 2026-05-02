@@ -1,34 +1,10 @@
 import { definePluginEntry } from "openclaw/plugin-sdk/plugin-entry";
+import { createClassifyTool } from "./tool.js";
 import {
   classifyWorkflowTier,
   renderWorkflowContext,
   resolveConfig,
 } from "./workflow.js";
-
-const classifyTool = {
-  label: "Alp River Task Classifier",
-  name: "alp_river_classify_task",
-  description: "Classify a task into Alp River/OpenClaw S, M, L, or XL workflow tier and return recommended orchestration mode.",
-  parameters: {
-    type: "object",
-    additionalProperties: false,
-    properties: {
-      text: { type: "string", description: "Task or prompt text to classify." },
-    },
-    required: ["text"],
-  },
-  async execute(params = {}) {
-    const result = classifyWorkflowTier(params.text || "");
-    return {
-      content: [
-        {
-          type: "text",
-          text: JSON.stringify(result, null, 2),
-        },
-      ],
-    };
-  },
-};
 
 export default definePluginEntry({
   id: "alp-river",
@@ -38,7 +14,7 @@ export default definePluginEntry({
     const cfg = resolveConfig(api.pluginConfig);
 
     if (cfg.registerTool) {
-      api.registerTool(() => classifyTool, { names: ["alp_river_classify_task"] });
+      api.registerTool(() => createClassifyTool(), { names: ["alp_river_classify_task"] });
     }
 
     api.on("before_prompt_build", async (event) => {
