@@ -1,5 +1,5 @@
 {
-  "name": "alp-river-openclaw-plugin",
+  "name": "alp-river",
   "version": "0.1.0",
   "description": "OpenClaw plugin adapter for Alp River staged workflow orchestration.",
   "type": "module",
