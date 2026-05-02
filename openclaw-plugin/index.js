@@ -1,4 +1,3 @@
-import { definePluginEntry } from "openclaw/plugin-sdk/plugin-entry";
 import { createClassifyTool } from "./tool.js";
 import {
   classifyWorkflowTier,
@@ -7,7 +6,7 @@ import {
   resolveConfig,
 } from "./workflow.js";
 
-export default definePluginEntry({
+export default {
   id: "alp-river",
   name: "Alp River Workflow",
   description: "OpenClaw adapter for Alp River staged workflow classification and prompt guidance",
@@ -32,4 +31,4 @@ export default definePluginEntry({
       return { prependContext: renderWorkflowContext(result, liveCfg.minimumRiverTier) };
     });
   },
-});
+};
