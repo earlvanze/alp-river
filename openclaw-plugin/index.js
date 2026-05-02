@@ -2,6 +2,7 @@ import { definePluginEntry } from "openclaw/plugin-sdk/plugin-entry";
 import { createClassifyTool } from "./tool.js";
 import {
   classifyWorkflowTier,
+  extractClassifiableTaskText,
   renderWorkflowContext,
   resolveConfig,
 } from "./workflow.js";
@@ -21,7 +22,7 @@ export default definePluginEntry({
       const liveCfg = resolveConfig(api.pluginConfig);
       if (!liveCfg.enabled || !liveCfg.injectPromptContext) return undefined;
 
-      const prompt = event?.prompt || "";
+      const prompt = extractClassifiableTaskText(event?.prompt || "");
       if (!prompt || String(prompt).trim().length < 5) return undefined;
 
       const result = classifyWorkflowTier(prompt);
